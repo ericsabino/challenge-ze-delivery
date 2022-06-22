@@ -1,13 +1,18 @@
 package br.com.zedelivery.parceiroze.app.adapter.entrypoint;
 
 import br.com.zedelivery.parceiroze.app.adapter.entrypoint.dto.ParceiroZeDto;
+import br.com.zedelivery.parceiroze.app.adapter.entrypoint.mapper.CoordenadaClienteMapper;
 import br.com.zedelivery.parceiroze.app.adapter.entrypoint.mapper.ParceiroZeMapper;
+import br.com.zedelivery.parceiroze.app.configuration.exception.DataproviderException;
+import br.com.zedelivery.parceiroze.core.usecase.ParceiroZeUsecase;
+import br.com.zedelivery.parceiroze.core.usecase.model.CoordenadaCliente;
 import br.com.zedelivery.parceiroze.core.usecase.model.ParceiroZe;
 import org.elasticsearch.geometry.utils.Geohash;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 import static org.springframework.http.HttpStatus.*;
@@ -16,23 +21,36 @@ import static org.springframework.http.HttpStatus.*;
 @RequestMapping("/ze/v1")
 public class ParceiroZeController {
 
-    //@Autowired
     private final ParceiroZeMapper parceiroZeMapper;
+    private final CoordenadaClienteMapper coordenadaClienteMapper;
+    private final ParceiroZeUsecase parceiroZeUsecase;
 
-    public ParceiroZeController(ParceiroZeMapper parceiroZeMapper) {
+    public ParceiroZeController(ParceiroZeMapper parceiroZeMapper, CoordenadaClienteMapper coordenadaClienteMapper, ParceiroZeUsecase parceiroZeUsecase) {
         this.parceiroZeMapper = parceiroZeMapper;
+        this.coordenadaClienteMapper = coordenadaClienteMapper;
+        this.parceiroZeUsecase = parceiroZeUsecase;
     }
 
     @PostMapping(value = "/parceiro")
-    public ResponseEntity cadastrarParceiro(@RequestBody ParceiroZeDto parceiroZeDto) {
+    public ResponseEntity cadastrarParceiro(@RequestBody @Valid ParceiroZeDto parceiroZeDto) {
 
         ParceiroZe parceiroZe = parceiroZeMapper.parceiroZeDtoToParceiroZeModel(parceiroZeDto);
+        try {
+            parceiroZeUsecase.cadastrarParceiro(parceiroZe);
+            return ResponseEntity.status(CREATED).build();
+        } catch (DataproviderException e) {
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
+        }
 
-        return ResponseEntity.status(CREATED).body(parceiroZeMapper.parceiroZeModelToParceiroZeDto(parceiroZe));
+
     }
 
     @GetMapping(value = "/parceiro")
-    public ResponseEntity buscarParceiro(@RequestParam Double longitude, @RequestParam Double latitude) {
+    public ResponseEntity buscarParceiro(@RequestParam @Valid @NotNull(message = "Longitude não pode ser nulo") Double longitude,
+                                         @RequestParam @Valid @NotNull(message = "Latitude não pode ser nulo") Double latitude) {
+
+        var coordenadaCliente = coordenadaClienteMapper.coordenadaClienteDtoToCoordenadaClienteModel(longitude, latitude);
+
         String geohash = Geohash.stringEncode(longitude, latitude, 7);
 
         Collection<? extends CharSequence> geoHashNeighbors = Geohash.getNeighbors(geohash);

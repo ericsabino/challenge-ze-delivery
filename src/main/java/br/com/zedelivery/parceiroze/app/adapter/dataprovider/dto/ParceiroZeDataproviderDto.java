@@ -1,4 +1,4 @@
-package br.com.zedelivery.parceiroze.core.usecase.model;
+package br.com.zedelivery.parceiroze.app.adapter.dataprovider.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class ParceiroZe {
+@NoArgsConstructor
+public class ParceiroZeDataproviderDto {
     private String id;
     private String tradingName;
     private String ownerName;
     private String document;
-    private CoverageArea coverageArea;
-    private Address address;
+    private CoverageAreaDataproviderDto coverageArea;
+    private AddressDataproviderDto address;
 }

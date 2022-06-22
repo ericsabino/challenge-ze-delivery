@@ -33,7 +33,9 @@ public class AddressMapperImpl implements AddressMapper {
     }
 
     private String getGeohash(Double[] coordinates) {
-        return coordinates.length == 0 ? "" : Geohash.stringEncode(coordinates[0], coordinates[1], 7);
+        var lon = coordinates[0];
+        var lat = coordinates[1];
+        return coordinates.length == 0 ? "" : Geohash.stringEncode(lon, lat, 7);
     }
 
 }
