@@ -17,7 +17,7 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication
-//@EnableMongoRepositories(basePackages = "br.com.zedelivery.parceiroze.app.adapter.dataprovider.repository")
+@EnableMongoRepositories(basePackages = "br.com.zedelivery.parceiroze.app.adapter.dataprovider.repository")
 public class ParceirozeApplication {
 
 	public static void main(String[] args) {

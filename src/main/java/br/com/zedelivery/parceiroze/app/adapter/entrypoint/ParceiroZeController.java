@@ -3,9 +3,7 @@ package br.com.zedelivery.parceiroze.app.adapter.entrypoint;
 import br.com.zedelivery.parceiroze.app.adapter.entrypoint.dto.ParceiroZeDto;
 import br.com.zedelivery.parceiroze.app.adapter.entrypoint.mapper.CoordenadaClienteMapper;
 import br.com.zedelivery.parceiroze.app.adapter.entrypoint.mapper.ParceiroZeMapper;
-import br.com.zedelivery.parceiroze.app.configuration.exception.DataproviderException;
 import br.com.zedelivery.parceiroze.core.usecase.ParceiroZeUsecase;
-import br.com.zedelivery.parceiroze.core.usecase.model.CoordenadaCliente;
 import br.com.zedelivery.parceiroze.core.usecase.model.ParceiroZe;
 import org.elasticsearch.geometry.utils.Geohash;
 import org.springframework.http.ResponseEntity;
@@ -35,14 +33,8 @@ public class ParceiroZeController {
     public ResponseEntity cadastrarParceiro(@RequestBody @Valid ParceiroZeDto parceiroZeDto) {
 
         ParceiroZe parceiroZe = parceiroZeMapper.parceiroZeDtoToParceiroZeModel(parceiroZeDto);
-        try {
-            parceiroZeUsecase.cadastrarParceiro(parceiroZe);
-            return ResponseEntity.status(CREATED).build();
-        } catch (DataproviderException e) {
-            return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
-        }
-
-
+        parceiroZeUsecase.cadastrarParceiro(parceiroZe);
+        return ResponseEntity.status(CREATED).build();
     }
 
     @GetMapping(value = "/parceiro")

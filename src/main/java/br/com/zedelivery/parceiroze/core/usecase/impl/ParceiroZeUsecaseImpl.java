@@ -1,7 +1,6 @@
 package br.com.zedelivery.parceiroze.core.usecase.impl;
 
 import br.com.zedelivery.parceiroze.app.adapter.entrypoint.dto.ParceiroZeDto;
-import br.com.zedelivery.parceiroze.app.configuration.exception.DataproviderException;
 import br.com.zedelivery.parceiroze.core.gateway.ParceiroZeGateway;
 import br.com.zedelivery.parceiroze.core.usecase.ParceiroZeUsecase;
 import br.com.zedelivery.parceiroze.core.usecase.mapper.ParceiroZeUsecaseMapper;
@@ -20,7 +19,7 @@ public class ParceiroZeUsecaseImpl implements ParceiroZeUsecase {
     private final ParceiroZeUsecaseMapper parceiroZeUsecaseMapper;
 
     @Override
-    public void cadastrarParceiro(ParceiroZe parceiroZe) throws DataproviderException {
+    public void cadastrarParceiro(ParceiroZe parceiroZe) {
         var parceiroZeDataproviderDto = parceiroZeUsecaseMapper.parceiroZeToParceiroZeDataproviderDto(parceiroZe);
         parceiroZeGateway.salvarParceiroZe(parceiroZeDataproviderDto);
     }

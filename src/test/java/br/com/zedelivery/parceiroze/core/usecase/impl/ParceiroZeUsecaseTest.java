@@ -1,7 +1,6 @@
 package br.com.zedelivery.parceiroze.core.usecase.impl;
 
 import br.com.zedelivery.parceiroze.app.adapter.dataprovider.dto.ParceiroZeDataproviderDto;
-import br.com.zedelivery.parceiroze.app.configuration.exception.DataproviderException;
 import br.com.zedelivery.parceiroze.core.gateway.ParceiroZeGateway;
 import br.com.zedelivery.parceiroze.core.usecase.mapper.ParceiroZeUsecaseMapper;
 import br.com.zedelivery.parceiroze.core.usecase.model.ParceiroZe;
@@ -24,7 +23,7 @@ class ParceiroZeUsecaseTest {
     private ParceiroZeUsecaseMapper parceiroZeUsecaseMapper;
 
     @Test
-    void testCadastrarParceiro() throws DataproviderException {
+    void testCadastrarParceiro() {
         when(parceiroZeUsecaseMapper.parceiroZeToParceiroZeDataproviderDto(any())).thenReturn(ParceiroZeDataproviderDto.builder().document("MockOk").build());
         parceiroZeUsecase.cadastrarParceiro(any(ParceiroZe.class));
         verify(parceiroZeGateway, times(1)).salvarParceiroZe(any(ParceiroZeDataproviderDto.class));
