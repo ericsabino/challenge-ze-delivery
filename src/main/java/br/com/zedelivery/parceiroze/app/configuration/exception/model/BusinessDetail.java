@@ -1,16 +1,14 @@
 package br.com.zedelivery.parceiroze.app.configuration.exception.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BadRequestDetail {
-    private String campo;
+public class BusinessDetail {
+
+    private String codigo;
     private String mensagem;
-    private String valor;
 }

@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @JsonInclude(Include.NON_NULL)
 public class ErrorCamposResponse {
     private String campo;

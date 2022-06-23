@@ -8,5 +8,7 @@ public interface ParceiroZeUsecase {
 
     public void cadastrarParceiro(ParceiroZe parceiroZe);
 
-    public ParceiroZeDto buscarParceirosProximoPorCoordenadas(CoordenadaCliente coo);
+    public ParceiroZe buscarParceirosProximoPorCoordenadas(CoordenadaCliente coo);
+
+    public ParceiroZe buscarParceiroPorId(String identificador);
 }

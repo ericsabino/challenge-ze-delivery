@@ -11,8 +11,6 @@ import java.util.List;
 
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @JsonInclude(Include.NON_NULL)
 public class ErrorResponse {
     private String codigo;

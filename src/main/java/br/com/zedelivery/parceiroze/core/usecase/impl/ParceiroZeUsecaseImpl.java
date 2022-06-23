@@ -1,5 +1,6 @@
 package br.com.zedelivery.parceiroze.core.usecase.impl;
 
+import br.com.zedelivery.parceiroze.app.adapter.dataprovider.dto.ParceiroZeDataproviderDto;
 import br.com.zedelivery.parceiroze.app.adapter.entrypoint.dto.ParceiroZeDto;
 import br.com.zedelivery.parceiroze.core.gateway.ParceiroZeGateway;
 import br.com.zedelivery.parceiroze.core.usecase.ParceiroZeUsecase;
@@ -25,7 +26,14 @@ public class ParceiroZeUsecaseImpl implements ParceiroZeUsecase {
     }
 
     @Override
-    public ParceiroZeDto buscarParceirosProximoPorCoordenadas(CoordenadaCliente coordenadaCliente) {
+    public ParceiroZe buscarParceirosProximoPorCoordenadas(CoordenadaCliente coordenadaCliente) {
         return null;
+    }
+
+    @Override
+    public ParceiroZe buscarParceiroPorId(String identificador) {
+        var request = parceiroZeUsecaseMapper.identificadorToParceiroZeDataproviderDto(identificador);
+        var response = parceiroZeGateway.buscarParceiroZePorID(request);
+        return parceiroZeUsecaseMapper.parceiroZeDataproviderDtoToParceiroZeModel(response);
     }
 }

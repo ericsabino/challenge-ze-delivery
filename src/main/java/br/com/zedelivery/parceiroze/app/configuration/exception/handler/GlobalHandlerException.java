@@ -1,10 +1,9 @@
 package br.com.zedelivery.parceiroze.app.configuration.exception.handler;
 
 import br.com.zedelivery.parceiroze.app.configuration.exception.BadRequestException;
+import br.com.zedelivery.parceiroze.app.configuration.exception.BusinessException;
 import br.com.zedelivery.parceiroze.app.configuration.exception.InternalServerErrorException;
-import br.com.zedelivery.parceiroze.app.configuration.exception.model.BadRequestDetail;
-import br.com.zedelivery.parceiroze.app.configuration.exception.model.ErrorCamposResponse;
-import br.com.zedelivery.parceiroze.app.configuration.exception.model.ErrorResponse;
+import br.com.zedelivery.parceiroze.app.configuration.exception.model.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -70,6 +69,20 @@ public class GlobalHandlerException extends ResponseEntityExceptionHandler {
                     .build();
         }
 
+        return this.handleException(exception, errorBody, status, request);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    protected ResponseEntity<Object> handleInternalServerErrorException(BusinessException exception, WebRequest request) {
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+        List<BusinessDetail> detalhes = new ArrayList<>();
+        Iterator iterator = exception.getDetalhes().iterator();
+
+        while(iterator.hasNext()) {
+            BusinessDetail detail = (BusinessDetail) iterator.next();
+            detalhes.add(BusinessDetail.builder().codigo(detail.getCodigo()).mensagem(detail.getMensagem()).build());
+        }
+        var errorBody = BusinessErrorResponse.builder().codigo(String.valueOf(status.value())).message(exception.getMessage()).detalhes(detalhes).build();
         return this.handleException(exception, errorBody, status, request);
     }
 
