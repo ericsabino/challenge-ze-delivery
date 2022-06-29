@@ -43,7 +43,7 @@ public class MapperMocks {
         return CoverageArea
                 .builder()
                 .type("MultiPolygon")
-                .coordinates( Arrays.asList(Arrays.asList(Arrays.asList(Arrays.asList(coordenates)))))
+                .coordinates(Arrays.asList(Arrays.asList(Arrays.asList(Arrays.asList(coordenates)))))
                 .build();
     }
 }

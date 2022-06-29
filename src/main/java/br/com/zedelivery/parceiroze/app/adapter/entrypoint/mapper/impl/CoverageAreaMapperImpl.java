@@ -14,8 +14,8 @@ public class CoverageAreaMapperImpl implements CoverageAreaMapper {
             return null;
         }
         return CoverageArea.builder()
-                    .type(coverageAreaDto.getType())
-                    .coordinates(coverageAreaDto.getCoordinates())
+                .type(coverageAreaDto.getType())
+                .coordinates(coverageAreaDto.getCoordinates())
                 .build();
     }
 

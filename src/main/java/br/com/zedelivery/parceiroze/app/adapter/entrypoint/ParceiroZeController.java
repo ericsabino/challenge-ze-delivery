@@ -5,15 +5,13 @@ import br.com.zedelivery.parceiroze.app.adapter.entrypoint.mapper.CoordenadaClie
 import br.com.zedelivery.parceiroze.app.adapter.entrypoint.mapper.ParceiroZeMapper;
 import br.com.zedelivery.parceiroze.core.usecase.ParceiroZeUsecase;
 import br.com.zedelivery.parceiroze.core.usecase.model.ParceiroZe;
-import org.elasticsearch.geometry.utils.Geohash;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.Collection;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("/ze/v1")
@@ -41,8 +39,9 @@ public class ParceiroZeController {
     }
 
     @GetMapping(value = "/parceiro/{identificador}")
-    public ResponseEntity buscarParceiroPorId(
-                                            @PathVariable("identificador") @Valid @NotNull(message = IDENTIFICADOR_NOT_NULL) String identificador) {
+    public ResponseEntity buscarParceiroPorId(@PathVariable("identificador")
+                                              @Valid @NotNull(message = IDENTIFICADOR_NOT_NULL)
+                                              String identificador) {
         var parceiroZe = parceiroZeUsecase.buscarParceiroPorId(identificador);
 
         return ResponseEntity.ok().body(parceiroZeMapper.parceiroZeModelToParceiroZeDto(parceiroZe));
@@ -53,13 +52,9 @@ public class ParceiroZeController {
                                          @RequestParam @Valid @NotNull(message = LATITUDE_NOT_NULL) Double latitude) {
 
         var coordenadaCliente = coordenadaClienteMapper.coordenadaClienteDtoToCoordenadaClienteModel(longitude, latitude);
+        var parceiroZe = parceiroZeUsecase.buscarParceirosProximoPorCoordenadas(coordenadaCliente);
 
-        String geohash = Geohash.stringEncode(longitude, latitude, 7);
-
-        Collection<? extends CharSequence> geoHashNeighbors = Geohash.getNeighbors(geohash);
-        geoHashNeighbors.forEach(s->System.out.println(String.format("Localização Vizinho: %s", s)));
-
-        return ResponseEntity.ok().body(geoHashNeighbors);
+        return ResponseEntity.ok().body(parceiroZeMapper.parceiroZeModelToParceiroZeDto(parceiroZe));
     }
 
 }

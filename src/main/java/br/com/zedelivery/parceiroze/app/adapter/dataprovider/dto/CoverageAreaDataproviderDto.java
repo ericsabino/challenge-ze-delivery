@@ -9,8 +9,6 @@ import java.util.List;
 
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class CoverageAreaDataproviderDto {
     private String type;
     private List<List<List<List<Double>>>> coordinates;
