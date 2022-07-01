@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.core.mapping.*;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Document(collection = "parceiroze")
 public class ParceiroZeEntity {
     @Id

@@ -5,6 +5,7 @@ import br.com.zedelivery.parceiroze.app.adapter.entrypoint.mapper.CoordenadaClie
 import br.com.zedelivery.parceiroze.app.adapter.entrypoint.mapper.ParceiroZeMapper;
 import br.com.zedelivery.parceiroze.core.usecase.ParceiroZeUsecase;
 import br.com.zedelivery.parceiroze.core.usecase.model.ParceiroZe;
+import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,20 +17,15 @@ import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("/ze/v1")
+@AllArgsConstructor
 public class ParceiroZeController {
 
     public static final String LONGITUDE_NOT_NULL = "Longitude não pode ser nulo";
     public static final String LATITUDE_NOT_NULL = "Latitude não pode ser nulo";
     public static final String IDENTIFICADOR_NOT_NULL = "Identidicador do cliente deve ser informado";
-    private final ParceiroZeMapper parceiroZeMapper;
-    private final CoordenadaClienteMapper coordenadaClienteMapper;
-    private final ParceiroZeUsecase parceiroZeUsecase;
-
-    public ParceiroZeController(ParceiroZeMapper parceiroZeMapper, CoordenadaClienteMapper coordenadaClienteMapper, ParceiroZeUsecase parceiroZeUsecase) {
-        this.parceiroZeMapper = parceiroZeMapper;
-        this.coordenadaClienteMapper = coordenadaClienteMapper;
-        this.parceiroZeUsecase = parceiroZeUsecase;
-    }
+    private ParceiroZeMapper parceiroZeMapper;
+    private CoordenadaClienteMapper coordenadaClienteMapper;
+    private ParceiroZeUsecase parceiroZeUsecase;
 
     @PostMapping(value = "/parceiro")
     public ResponseEntity cadastrarParceiro(@RequestBody @Valid ParceiroZeDto parceiroZeDto) {

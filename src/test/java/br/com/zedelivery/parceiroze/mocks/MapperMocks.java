@@ -8,6 +8,7 @@ import br.com.zedelivery.parceiroze.app.adapter.dataprovider.repository.entity.C
 import br.com.zedelivery.parceiroze.app.adapter.dataprovider.repository.entity.ParceiroZeEntity;
 import br.com.zedelivery.parceiroze.app.adapter.entrypoint.dto.AddressDto;
 import br.com.zedelivery.parceiroze.app.adapter.entrypoint.dto.CoverageAreaDto;
+import br.com.zedelivery.parceiroze.app.adapter.entrypoint.dto.ParceiroZeDto;
 import br.com.zedelivery.parceiroze.core.usecase.model.Address;
 import br.com.zedelivery.parceiroze.core.usecase.model.CoordenadaCliente;
 import br.com.zedelivery.parceiroze.core.usecase.model.CoverageArea;
@@ -24,6 +25,17 @@ public class MapperMocks {
                 .type("POINT")
                 //.geohash("ef8vk6w")
                 .coordinates(new Double[]{lon, lat})
+                .build();
+    }
+
+    public static ParceiroZeDto getParceiroZeDto() {
+        return ParceiroZeDto.builder()
+                .id("002")
+                .document("99.999.999/9999-00")
+                .tradingName("Zé")
+                .ownerName("Zé Delivery")
+                .address(getAddressDto())
+                .coverageArea(getCoverageDto())
                 .build();
     }
 
