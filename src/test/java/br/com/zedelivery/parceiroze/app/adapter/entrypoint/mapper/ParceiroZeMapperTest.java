@@ -8,9 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static br.com.zedelivery.parceiroze.app.adapter.entrypoint.mapper.mocks.MapperMocks.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static br.com.zedelivery.parceiroze.mocks.MapperMocks.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -64,6 +63,18 @@ class ParceiroZeMapperTest {
         assertEquals("Zé da Silva", result.getOwnerName());
         assertEquals(getCoverageDto(), result.getCoverageArea());
         assertEquals(getAddressDto(), result.getAddress());
+    }
+
+    @Test
+    public void testParceiroZeModelNulo() {
+        ParceiroZe parceiroZe = mapper.parceiroZeDtoToParceiroZeModel(null);
+        assertNull(parceiroZe);
+    }
+
+    @Test
+    public void testParceiroZeDtoNulo() {
+        ParceiroZeDto parceiroZeDto = mapper.parceiroZeModelToParceiroZeDto(null);
+        assertNull(parceiroZeDto);
     }
 
     private ParceiroZe getParceiroZeModel() {

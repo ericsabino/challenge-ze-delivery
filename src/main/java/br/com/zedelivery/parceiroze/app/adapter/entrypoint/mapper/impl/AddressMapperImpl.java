@@ -16,7 +16,7 @@ public class AddressMapperImpl implements AddressMapper {
         return Address.builder()
                 .type(addressDto.getType())
                 .coordinates(addressDto.getCoordinates())
-                .geohash(addressDto.getCoordinates() == null ? "" : getGeohash(addressDto.getCoordinates()))
+                //.geohash(addressDto.getCoordinates() == null ? "" : getGeohash(addressDto.getCoordinates()))
                 .build();
     }
 
@@ -28,14 +28,14 @@ public class AddressMapperImpl implements AddressMapper {
         return AddressDto.builder()
                 .type(addressModel.getType())
                 .coordinates(addressModel.getCoordinates())
-                .geohash(addressModel.getCoordinates() == null ? "" : getGeohash(addressModel.getCoordinates()))
+                //.geohash(addressModel.getCoordinates() == null ? "" : getGeohash(addressModel.getCoordinates()))
                 .build();
     }
 
-    private String getGeohash(Double[] coordinates) {
+    /*private String getGeohash(Double[] coordinates) {
         var lon = coordinates[0];
         var lat = coordinates[1];
-        return coordinates.length == 0 ? "" : Geohash.stringEncode(lon, lat, 7);
-    }
+        return coordinates.length == 0 ? "" : Geohash.stringEncode(lon, lat, 8);
+    }*/
 
 }

@@ -5,6 +5,7 @@ import br.com.zedelivery.parceiroze.app.adapter.entrypoint.mapper.CoordenadaClie
 import br.com.zedelivery.parceiroze.app.adapter.entrypoint.mapper.ParceiroZeMapper;
 import br.com.zedelivery.parceiroze.core.usecase.ParceiroZeUsecase;
 import br.com.zedelivery.parceiroze.core.usecase.model.ParceiroZe;
+import org.springframework.format.annotation.NumberFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

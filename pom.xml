@@ -18,6 +18,9 @@
 		<java.version>17</java.version>
 		<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
 		<org.projectlombok.version>1.18.22</org.projectlombok.version>
+		<sonar.exclusions>**/ParceirozeApplication.*, **/core/usecase/mapper/, **/core/usecase/model/, **/app/adapter/dataprovider/dto/, **/app/adapter/dataprovider/mapper/, **/app/adapter/dataprovider/repository/entity/, **/app/adapter/entrypoint/dto/, **/app/configuration/exception/model/, **/app/configuration/</sonar.exclusions>
+		<sonar.coverage.exclusion>${sonar.exclusions}</sonar.coverage.exclusion>
+		<jacoco.coverage.exclusion>${sonar.exclusions}</jacoco.coverage.exclusion>
 	</properties>
 
 	<dependencies>
@@ -98,6 +101,7 @@
 			<groupId>com.tngtech.archunit</groupId>
 			<artifactId>archunit-junit5</artifactId>
 			<version>0.23.1</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
@@ -141,6 +145,37 @@
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.7</version>
+				<configuration>
+					<destFile>${sonar.jacoco.reportPath}</destFile>
+					<append>true</append>
+					<excludes>
+						<exclude>${sonar.exclusions}</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/jacoco-report</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

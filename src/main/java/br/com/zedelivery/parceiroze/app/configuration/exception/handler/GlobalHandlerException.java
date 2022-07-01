@@ -11,9 +11,11 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +36,18 @@ public class GlobalHandlerException extends ResponseEntityExceptionHandler {
 
         ErrorResponse errorBody = ErrorResponse.builder().codigo(String.valueOf(status.value())).mensagem(exception.getMessage()).campos(campos).build();
         return this.handleException(exception, errorBody, status, request);
+    }
+
+    @ExceptionHandler({MethodArgumentTypeMismatchException.class})
+    public ResponseEntity<Object> methodArgumentTypeMismatchException(MethodArgumentTypeMismatchException exception, WebRequest request) {
+        List<ErrorCamposResponse> campos = new ArrayList<>();
+        ErrorResponse errorBody = ErrorResponse.builder()
+                .campos(Arrays.asList(ErrorCamposResponse.builder().campo(exception.getParameter().getParameter().getName()).build()))
+                .codigo(String.valueOf(HttpStatus.BAD_REQUEST))
+                .mensagem(String.valueOf(exception.getMessage()))
+                .build();
+
+        return this.handleException(exception, errorBody, HttpStatus.BAD_REQUEST, request);
     }
 
     @Override

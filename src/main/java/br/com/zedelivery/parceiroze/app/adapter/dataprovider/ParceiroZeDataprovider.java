@@ -3,10 +3,10 @@ package br.com.zedelivery.parceiroze.app.adapter.dataprovider;
 import br.com.zedelivery.parceiroze.app.adapter.dataprovider.dto.ParceiroZeDataproviderDto;
 import br.com.zedelivery.parceiroze.app.adapter.dataprovider.mapper.ParceiroZeDataproviderMapper;
 import br.com.zedelivery.parceiroze.app.adapter.dataprovider.repository.ParceiroZeRepository;
-import br.com.zedelivery.parceiroze.app.configuration.exception.BusinessException;
 import br.com.zedelivery.parceiroze.app.configuration.exception.InternalServerErrorException;
 import br.com.zedelivery.parceiroze.core.gateway.ParceiroZeGateway;
 import br.com.zedelivery.parceiroze.core.usecase.model.CoordenadaCliente;
+import com.mongodb.MongoException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -29,7 +29,7 @@ public class ParceiroZeDataprovider implements ParceiroZeGateway {
         var parceiroZeEntity = parceiroZeDataproviderMapper.parceiroZeDataproviderDtoToParceiroZeEntity(parceiroZeDataproviderDto);
         try {
             parceiroZeRepository.insert(parceiroZeEntity);
-        } catch (Exception e) {
+        } catch (MongoException e) {
             log.error(String.format(ERRO_INSERT, parceiroZeEntity.getDocument(), parceiroZeEntity.getOwnerName()), e);
             throw new InternalServerErrorException(String.format(ERRO_INSERT, parceiroZeEntity.getDocument(), parceiroZeEntity.getOwnerName()));
         }
@@ -40,9 +40,9 @@ public class ParceiroZeDataprovider implements ParceiroZeGateway {
         try {
             var parceiroResult = parceiroZeRepository.findById(parceiroZeDataproviderDto.getId());
             return parceiroZeDataproviderMapper.parceiroZeEntityToParceiroZeDataproviderDto(parceiroResult.get());
-        } catch (Exception e) {
+        } catch (MongoException e) {
             log.error(String.format(ERRO_FIND_BY_ID, parceiroZeDataproviderDto.getId()), e);
-            throw new BusinessException(String.format(ERRO_FIND_BY_ID, parceiroZeDataproviderDto.getId()));
+            throw new InternalServerErrorException(String.format(ERRO_FIND_BY_ID, parceiroZeDataproviderDto.getId()));
         }
     }
 
@@ -51,7 +51,7 @@ public class ParceiroZeDataprovider implements ParceiroZeGateway {
         try {
             var parceiroZeEntity = parceiroZeRepository.findByCoverageAreaCoordinates(coordenadas);
             return parceiroZeDataproviderMapper.parceiroZeEntityToParceiroZeDataproviderDto(parceiroZeEntity);
-        } catch (Exception e) {
+        } catch (MongoException e) {
             log.error(String.format(ERRO_FIND_BY_COORDINATES, coordenadas), e);
             throw new InternalServerErrorException(String.format(ERRO_FIND_BY_COORDINATES, coordenadas));
         }

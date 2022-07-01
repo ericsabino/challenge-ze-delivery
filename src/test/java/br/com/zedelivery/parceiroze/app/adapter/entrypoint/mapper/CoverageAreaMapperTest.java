@@ -3,8 +3,8 @@ package br.com.zedelivery.parceiroze.app.adapter.entrypoint.mapper;
 import br.com.zedelivery.parceiroze.app.adapter.entrypoint.mapper.impl.CoverageAreaMapperImpl;
 import org.junit.jupiter.api.Test;
 
-import static br.com.zedelivery.parceiroze.app.adapter.entrypoint.mapper.mocks.MapperMocks.getCoverageDto;
-import static br.com.zedelivery.parceiroze.app.adapter.entrypoint.mapper.mocks.MapperMocks.getCoverageModel;
+import static br.com.zedelivery.parceiroze.mocks.MapperMocks.getCoverageDto;
+import static br.com.zedelivery.parceiroze.mocks.MapperMocks.getCoverageModel;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CoverageAreaMapperTest {
