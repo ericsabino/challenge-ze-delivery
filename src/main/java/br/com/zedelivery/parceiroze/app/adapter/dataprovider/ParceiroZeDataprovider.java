@@ -50,11 +50,13 @@ public class ParceiroZeDataprovider implements ParceiroZeGateway {
     public ParceiroZeDataproviderDto buscarParceiroZePorID(ParceiroZeDataproviderDto parceiroZeDataproviderDto) {
         try {
             var parceiroResult = parceiroZeRepository.findById(parceiroZeDataproviderDto.getId());
-            return parceiroZeDataproviderMapper.parceiroZeEntityToParceiroZeDataproviderDto(parceiroResult.get());
+            if(parceiroResult.isPresent())
+                return parceiroZeDataproviderMapper.parceiroZeEntityToParceiroZeDataproviderDto(parceiroResult.get());
         } catch (MongoException e) {
             log.error(String.format(ERRO_FIND_BY_ID, parceiroZeDataproviderDto.getId()), e);
             throw new InternalServerErrorException(String.format(ERRO_FIND_BY_ID, parceiroZeDataproviderDto.getId()));
         }
+        return ParceiroZeDataproviderDto.builder().build();
     }
 
     public ParceiroZeDataproviderDto buscarParceiroZePorCoordenadas(CoordenadaCliente coordenadaCliente) {
