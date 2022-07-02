@@ -15,5 +15,4 @@ public class AddressDto {
     private String type;
     @NotNull(message = "Coordenadas do endereço devem ser enviadas")
     private Double[] coordinates;
-    //private String geohash;
 }

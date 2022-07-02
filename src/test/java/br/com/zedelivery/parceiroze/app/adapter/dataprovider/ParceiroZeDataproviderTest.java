@@ -4,6 +4,7 @@ import br.com.zedelivery.parceiroze.app.adapter.dataprovider.dto.ParceiroZeDatap
 import br.com.zedelivery.parceiroze.app.adapter.dataprovider.mapper.ParceiroZeDataproviderMapper;
 import br.com.zedelivery.parceiroze.app.adapter.dataprovider.repository.ParceiroZeRepository;
 import br.com.zedelivery.parceiroze.app.adapter.dataprovider.repository.entity.ParceiroZeEntity;
+import br.com.zedelivery.parceiroze.app.configuration.exception.BusinessException;
 import br.com.zedelivery.parceiroze.app.configuration.exception.InternalServerErrorException;
 import com.mongodb.MongoException;
 import org.junit.Assert;
@@ -71,6 +72,13 @@ public class ParceiroZeDataproviderTest {
         dataprovider.buscarParceiroZePorID(ParceiroZeDataproviderDto.builder().id("001").build());
 
         verify(parceiroZeRepository, times(1)).findById(anyString());
+    }
+
+    @Test(expected = BusinessException.class)
+    public void testDeveRetornarBusinessExceptionAoBuscarPorId() {
+        when(parceiroZeDataproviderMapper.parceiroZeEntityToParceiroZeDataproviderDto(any())).thenReturn(null);
+        dataprovider.buscarParceiroZePorID(ParceiroZeDataproviderDto.builder().id("001").build());
+
     }
 
     @Test

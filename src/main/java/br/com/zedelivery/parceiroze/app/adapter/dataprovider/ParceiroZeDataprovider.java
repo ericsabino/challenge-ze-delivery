@@ -4,6 +4,7 @@ import br.com.zedelivery.parceiroze.app.adapter.dataprovider.dto.ParceiroZeDatap
 import br.com.zedelivery.parceiroze.app.adapter.dataprovider.mapper.ParceiroZeDataproviderMapper;
 import br.com.zedelivery.parceiroze.app.adapter.dataprovider.repository.ParceiroZeRepository;
 import br.com.zedelivery.parceiroze.app.adapter.dataprovider.repository.entity.ParceiroZeEntity;
+import br.com.zedelivery.parceiroze.app.configuration.exception.BusinessException;
 import br.com.zedelivery.parceiroze.app.configuration.exception.InternalServerErrorException;
 import br.com.zedelivery.parceiroze.core.gateway.ParceiroZeGateway;
 import br.com.zedelivery.parceiroze.core.usecase.model.CoordenadaCliente;
@@ -24,6 +25,7 @@ import static java.util.Objects.requireNonNull;
 public class ParceiroZeDataprovider implements ParceiroZeGateway {
 
     public static final String ERRO_INSERT = "Erro ao inserir na base. Parceiro Zé [%s / %s]";
+    public static final String ID_NOT_FOUND = "Identificador [%s] não encontrado";
     public static final String ERRO_FIND_BY_ID = "ParceiroZe não encontrado com Identificador: [%s]";
     public static final String ERRO_FIND_BY_COORDINATES = "Erro ao pesquisar parceiro próximo à coordenada: [%s]";
     private static final String PARCEIRO_ZE_CACHE = "parceiroze";
@@ -50,13 +52,15 @@ public class ParceiroZeDataprovider implements ParceiroZeGateway {
     public ParceiroZeDataproviderDto buscarParceiroZePorID(ParceiroZeDataproviderDto parceiroZeDataproviderDto) {
         try {
             var parceiroResult = parceiroZeRepository.findById(parceiroZeDataproviderDto.getId());
-            if(parceiroResult.isPresent())
+            if(parceiroResult.isPresent()) {
                 return parceiroZeDataproviderMapper.parceiroZeEntityToParceiroZeDataproviderDto(parceiroResult.get());
+            } else {
+                throw new BusinessException(String.format(ID_NOT_FOUND, parceiroZeDataproviderDto.getId()));
+            }
         } catch (MongoException e) {
             log.error(String.format(ERRO_FIND_BY_ID, parceiroZeDataproviderDto.getId()), e);
             throw new InternalServerErrorException(String.format(ERRO_FIND_BY_ID, parceiroZeDataproviderDto.getId()));
         }
-        return ParceiroZeDataproviderDto.builder().build();
     }
 
     public ParceiroZeDataproviderDto buscarParceiroZePorCoordenadas(CoordenadaCliente coordenadaCliente) {

@@ -14,5 +14,4 @@ import java.time.LocalDateTime;
 public class Address {
     private String type;
     private Double[] coordinates;
-    //private String geohash;
 }

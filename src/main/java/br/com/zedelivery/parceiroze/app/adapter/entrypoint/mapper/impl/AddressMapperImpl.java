@@ -3,7 +3,6 @@ package br.com.zedelivery.parceiroze.app.adapter.entrypoint.mapper.impl;
 import br.com.zedelivery.parceiroze.app.adapter.entrypoint.dto.AddressDto;
 import br.com.zedelivery.parceiroze.app.adapter.entrypoint.mapper.AddressMapper;
 import br.com.zedelivery.parceiroze.core.usecase.model.Address;
-import org.elasticsearch.geometry.utils.Geohash;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,7 +15,6 @@ public class AddressMapperImpl implements AddressMapper {
         return Address.builder()
                 .type(addressDto.getType())
                 .coordinates(addressDto.getCoordinates())
-                //.geohash(addressDto.getCoordinates() == null ? "" : getGeohash(addressDto.getCoordinates()))
                 .build();
     }
 
@@ -28,14 +26,6 @@ public class AddressMapperImpl implements AddressMapper {
         return AddressDto.builder()
                 .type(addressModel.getType())
                 .coordinates(addressModel.getCoordinates())
-                //.geohash(addressModel.getCoordinates() == null ? "" : getGeohash(addressModel.getCoordinates()))
                 .build();
     }
-
-    /*private String getGeohash(Double[] coordinates) {
-        var lon = coordinates[0];
-        var lat = coordinates[1];
-        return coordinates.length == 0 ? "" : Geohash.stringEncode(lon, lat, 8);
-    }*/
-
 }
