@@ -54,7 +54,7 @@ public class ParceiroZeControllerTest {
 
     @Test
     public void testCadastrarParceiroZe() throws Exception {
-        String requestValid = "{\r\n  \"id\": 1, \r\n  \"tradingName\": \"Adega da Cerveja - Pinheiros\",\r\n  \"ownerName\": \"Zé da Silva\",\r\n  \"document\": \"1432132123891/0001\",\r\n  \"coverageArea\": { \r\n    \"type\": \"MultiPolygon\",\r\n    \"coordinates\": [    [[[102.0, 2.0], [103.0, 2.0], [103.0, 3.0], [102.0, 3.0], [102.0, 2.0]]],    \r\n                        [[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]],     \r\n                         [[100.2, 0.2], [100.8, 0.2], [100.8, 0.8], [100.2, 0.8], [100.2, 0.2]]]    \r\n                         ]\r\n  },\r\n  \"address\": { \r\n    \"type\": \"Point\",\r\n    \"coordinates\": [-46.57421, -21.785741]\r\n  }\r\n}";
+        String requestValid = "{\r\n  \"tradingName\": \"Adega da Cerveja - Pinheiros\",\r\n  \"ownerName\": \"Zé da Silva\",\r\n  \"document\": \"1432132123891/0001\",\r\n  \"coverageArea\": { \r\n    \"type\": \"MultiPolygon\",\r\n    \"coordinates\": [    [[[102.0, 2.0], [103.0, 2.0], [103.0, 3.0], [102.0, 3.0], [102.0, 2.0]]],    \r\n                        [[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]],     \r\n                         [[100.2, 0.2], [100.8, 0.2], [100.8, 0.8], [100.2, 0.8], [100.2, 0.2]]]    \r\n                         ]\r\n  },\r\n  \"address\": { \r\n    \"type\": \"Point\",\r\n    \"coordinates\": [-46.57421, -21.785741]\r\n  }\r\n}";
         when(parceiroZeMapper.parceiroZeDtoToParceiroZeModel(any())).thenReturn(getParceiroZeModel());
 
         mockMvc.perform(post(URI_PARCEIRO).contentType(MediaType.APPLICATION_JSON)
