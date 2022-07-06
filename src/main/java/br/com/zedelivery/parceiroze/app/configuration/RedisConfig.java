@@ -23,7 +23,8 @@ import java.time.Duration;
 @EnableCaching
 public class RedisConfig {
     public static final String CACHE_MANAGER_ZE_DELIVERY = "cacheManagerZeDelivery";
-    private static final String PARCEIRO_ZE = "parceiroze";
+    public static final String PARCEIRO_ZE = "parceiroze-por-area-de-cobertura";
+    private static final Integer DURATION_IN_MINUTOS = 5;
     @Value("${redis.url}")
     private String redisHostname;
     @Value("${redis.port}")
@@ -42,7 +43,7 @@ public class RedisConfig {
     @Bean(name = CACHE_MANAGER_ZE_DELIVERY)
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         return RedisCacheManager.builder(redisConnectionFactory)
-                .withCacheConfiguration(PARCEIRO_ZE, buildCacheConfiguration(Duration.ofMinutes(1), ParceiroZeDataproviderDto.class))
+                .withCacheConfiguration(PARCEIRO_ZE, buildCacheConfiguration(Duration.ofMinutes(DURATION_IN_MINUTOS), ParceiroZeDataproviderDto.class))
                 .build();
     }
 
@@ -59,7 +60,6 @@ public class RedisConfig {
     @Bean
     public LettuceConnectionFactory lettuceConnectionFactory() {
         RedisStandaloneConfiguration redisConfiguration = new RedisStandaloneConfiguration(redisHostname);
-        System.out.println("########################################## HOSTNAME DO CACHE É: " + redisHostname);
         return new LettuceConnectionFactory(redisConfiguration, buildLettuceConnectionFactory());
     }
 

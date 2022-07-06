@@ -10,6 +10,8 @@ import java.util.List;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CoverageAreaDataproviderDto implements Serializable {
     private static final long serialVersionUID = 7546504898450540147L;
     private String type;

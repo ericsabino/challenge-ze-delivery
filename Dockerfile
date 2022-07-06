@@ -1,7 +1,3 @@
-FROM maven AS build
-COPY pom.xml /app/pom.xml
-RUN mvn -f /app/pom.xml clean package
-
 FROM openjdk
 WORKDIR /app
 COPY /src/main/resources/application-dev.properties /app/application-dev.properties
