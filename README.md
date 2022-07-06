@@ -97,7 +97,7 @@ Body de exemplo para cadastro de parceiro:
 }
 ```
 
-####Response
+#### Response
 ```
 Status: 201 Created
 ```
@@ -111,7 +111,7 @@ Local
 http://localhost:8085/ze/v1/parceiros/{identificador}
 ```
 
-####Response
+#### Response
 
 ```json5
 {
@@ -313,7 +313,7 @@ Ex.:
     longitude=-43.93918
     latitude=-19.86877
 ```
-####Response
+#### Response
 
 ```json5
 {
