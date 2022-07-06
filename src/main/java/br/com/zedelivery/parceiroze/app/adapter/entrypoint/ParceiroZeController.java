@@ -27,7 +27,7 @@ public class ParceiroZeController {
     private CoordenadaClienteMapper coordenadaClienteMapper;
     private ParceiroZeUsecase parceiroZeUsecase;
 
-    @PostMapping(value = "/parceiro")
+    @PostMapping(value = "/parceiros")
     public ResponseEntity cadastrarParceiro(@RequestBody @Valid ParceiroZeDto parceiroZeDto) {
 
         ParceiroZe parceiroZe = parceiroZeMapper.parceiroZeDtoToParceiroZeModel(parceiroZeDto);
@@ -35,7 +35,7 @@ public class ParceiroZeController {
         return ResponseEntity.status(CREATED).build();
     }
 
-    @GetMapping(value = "/parceiro/{identificador}")
+    @GetMapping(value = "/parceiros/{identificador}")
     public ResponseEntity buscarParceiroPorId(@PathVariable("identificador")
                                               @Valid @NotNull(message = IDENTIFICADOR_NOT_NULL)
                                               String identificador) {
@@ -44,7 +44,7 @@ public class ParceiroZeController {
         return ResponseEntity.ok().body(parceiroZeMapper.parceiroZeModelToParceiroZeDto(parceiroZe));
     }
 
-    @GetMapping(value = "/parceiro")
+    @GetMapping(value = "/parceiros")
     public ResponseEntity buscarParceiro(@RequestParam @Valid @NotNull(message = LONGITUDE_NOT_NULL) Double longitude,
                                          @RequestParam @Valid @NotNull(message = LATITUDE_NOT_NULL) Double latitude) {
 

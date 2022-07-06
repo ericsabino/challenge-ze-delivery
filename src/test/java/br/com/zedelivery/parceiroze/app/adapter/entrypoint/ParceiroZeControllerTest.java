@@ -38,9 +38,9 @@ import static org.hamcrest.Matchers.is;
 @AutoConfigureMockMvc
 public class ParceiroZeControllerTest {
 
-    private static final String URI_PARCEIRO = "/ze/v1/parceiro";
-    private static final String URI_PARCEIRO_ID = "/ze/v1/parceiro/{id}";
-    private static final String URI_PARCEIRO_POR_COORDENADAS = "/ze/v1/parceiro";
+    private static final String URI_PARCEIRO = "/ze/v1/parceiros";
+    private static final String URI_PARCEIRO_ID = "/ze/v1/parceiros/{id}";
+    private static final String URI_PARCEIRO_POR_COORDENADAS = "/ze/v1/parceiros";
 
     @Autowired
     private MockMvc mockMvc;

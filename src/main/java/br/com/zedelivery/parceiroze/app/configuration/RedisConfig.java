@@ -1,8 +1,9 @@
 package br.com.zedelivery.parceiroze.app.configuration;
 
-import br.com.zedelivery.parceiroze.app.adapter.dataprovider.repository.entity.ParceiroZeEntity;
+import br.com.zedelivery.parceiroze.app.adapter.dataprovider.dto.ParceiroZeDataproviderDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -19,9 +20,11 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import java.time.Duration;
 
 @Configuration
+@EnableCaching
 public class RedisConfig {
+    public static final String CACHE_MANAGER_ZE_DELIVERY = "cacheManagerZeDelivery";
     private static final String PARCEIRO_ZE = "parceiroze";
-    @Value("${redis.hostname}")
+    @Value("${redis.url}")
     private String redisHostname;
     @Value("${redis.port}")
     private Integer redisPort;
@@ -36,10 +39,10 @@ public class RedisConfig {
     }
 
     @Primary
-    @Bean(name = "cacheManagerZeDelivery")
+    @Bean(name = CACHE_MANAGER_ZE_DELIVERY)
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         return RedisCacheManager.builder(redisConnectionFactory)
-                .withCacheConfiguration(PARCEIRO_ZE, buildCacheConfiguration(Duration.ofMinutes(5), ParceiroZeEntity.class))
+                .withCacheConfiguration(PARCEIRO_ZE, buildCacheConfiguration(Duration.ofMinutes(1), ParceiroZeDataproviderDto.class))
                 .build();
     }
 
@@ -53,8 +56,10 @@ public class RedisConfig {
                 .serializeValuesWith(jsonSerializeValues);
     }
 
+    @Bean
     public LettuceConnectionFactory lettuceConnectionFactory() {
         RedisStandaloneConfiguration redisConfiguration = new RedisStandaloneConfiguration(redisHostname);
+        System.out.println("########################################## HOSTNAME DO CACHE É: " + redisHostname);
         return new LettuceConnectionFactory(redisConfiguration, buildLettuceConnectionFactory());
     }
 

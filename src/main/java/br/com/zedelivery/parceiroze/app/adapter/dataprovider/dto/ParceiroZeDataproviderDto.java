@@ -5,11 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ParceiroZeDataproviderDto {
+public class ParceiroZeDataproviderDto implements Serializable {
+    private static final long serialVersionUID = 7546504898450540146L;
     private String id;
     private String tradingName;
     private String ownerName;

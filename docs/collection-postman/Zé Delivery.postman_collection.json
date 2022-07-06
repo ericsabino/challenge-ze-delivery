@@ -86,7 +86,7 @@
 				{
 					"name": "Cadastrar Parceiro",
 					"request": {
-						"url": "localhost:8085/ze/v1/parceiro",
+						"url": "localhost:8085/ze/v1/parceiros",
 						"method": "POST",
 						"header": [
 							{
@@ -97,7 +97,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": 1, \r\n  \"tradingName\": \"Adega da Cerveja - Pinheiros\",\r\n  \"ownerName\": \"Zé da Silva\",\r\n  \"document\": \"1432132123891/0001\",\r\n  \"coverageArea\": { \r\n    \"type\": \"MultiPolygon\",\r\n    \"coordinates\": [\r\n      [\r\n      \t[\r\n      \t\t[30, 20], \r\n      \t\t[45, 40], \r\n      \t\t[10, 40], \r\n      \t\t[30, 20]\r\n      \t]\r\n      ], \r\n      \t\r\n      [\r\n      \t[\r\n      \t\t[15, 5], \r\n      \t\t[40, 10], \r\n      \t\t[10, 20], \r\n      \t\t[5, 10], \r\n      \t\t[15, 5]]\r\n      \t]\r\n    ]\r\n  },\r\n  \"address\": { \r\n    \"type\": \"Point\",\r\n    \"coordinates\": [-46.57421, -21.785741]\r\n  }\r\n}"
+							"raw": "{\r\n  \"tradingName\": \"Adega da Cerveja - Pinheiros\",\r\n  \"ownerName\": \"Zé da Silva\",\r\n  \"document\": \"1432132123891/0001\",\r\n  \"coverageArea\": { \r\n    \"type\": \"MultiPolygon\",\r\n    \"coordinates\": [    [[[102.0, 2.0], [103.0, 2.0], [103.0, 3.0], [102.0, 3.0], [102.0, 2.0]]],    \r\n                        [[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]],     \r\n                         [[100.2, 0.2], [100.8, 0.2], [100.8, 0.8], [100.2, 0.8], [100.2, 0.2]]]    \r\n                         ]\r\n  },\r\n  \"address\": { \r\n    \"type\": \"Point\",\r\n    \"coordinates\": [-46.57421, -21.785741]\r\n  }\r\n}"
 						},
 						"description": ""
 					},
@@ -107,7 +107,7 @@
 					"name": "Buscar Parceiro Por Coordenadas",
 					"request": {
 						"url": {
-							"raw": "localhost:8085/ze/v1/parceiro?longitude=-46.57421&latitude=-21.785741",
+							"raw": "localhost:8085/ze/v1/parceiros?longitude=-43.93544&latitude=-19.85711",
 							"host": [
 								"localhost"
 							],
@@ -115,18 +115,18 @@
 							"path": [
 								"ze",
 								"v1",
-								"parceiro"
+								"parceiros"
 							],
 							"query": [
 								{
 									"key": "longitude",
-									"value": "-46.57421",
+									"value": "-43.93544",
 									"equals": true,
 									"description": ""
 								},
 								{
 									"key": "latitude",
-									"value": "-21.785741",
+									"value": "-19.85711",
 									"equals": true,
 									"description": ""
 								}
@@ -152,7 +152,7 @@
 				{
 					"name": "Buscar Parceiro Por ID",
 					"request": {
-						"url": "localhost:8085/ze/v1/parceiro/62b3b1249bd48a1c43084810",
+						"url": "localhost:8085/ze/v1/parceiros/62bf4747925c8527b901a53e",
 						"method": "GET",
 						"header": [
 							{
