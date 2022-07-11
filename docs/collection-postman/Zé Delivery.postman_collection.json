@@ -1,0 +1,175 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Zé Delivery",
+		"_postman_id": "e10bfcc0-49b8-4c76-0901-c22a39739b1e",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Actuator",
+			"description": "",
+			"item": [
+				{
+					"name": "Actuator",
+					"request": {
+						"url": "localhost:8085/actuator",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Metrics",
+					"request": {
+						"url": "localhost:8085/actuator/metrics",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Prometheus",
+					"request": {
+						"url": "localhost:8085/actuator/prometheus",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Health",
+					"request": {
+						"url": "localhost:8085/actuator/health",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Info",
+					"request": {
+						"url": "localhost:8085/actuator/info",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Mappings",
+					"request": {
+						"url": "http://localhost:8085/actuator/mappings",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Parceiro Zé",
+			"description": "",
+			"item": [
+				{
+					"name": "Cadastrar Parceiro",
+					"request": {
+						"url": "localhost:8085/ze/v1/parceiros",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tradingName\": \"Adega da Cerveja - Pinheiros\",\r\n  \"ownerName\": \"Zé da Silva\",\r\n  \"document\": \"1432132123891/0001\",\r\n  \"coverageArea\": { \r\n    \"type\": \"MultiPolygon\",\r\n    \"coordinates\": [    [[[102.0, 2.0], [103.0, 2.0], [103.0, 3.0], [102.0, 3.0], [102.0, 2.0]]],    \r\n                        [[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]],     \r\n                         [[100.2, 0.2], [100.8, 0.2], [100.8, 0.8], [100.2, 0.8], [100.2, 0.2]]]    \r\n                         ]\r\n  },\r\n  \"address\": { \r\n    \"type\": \"Point\",\r\n    \"coordinates\": [-46.57421, -21.785741]\r\n  }\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Parceiro Por Coordenadas",
+					"request": {
+						"url": {
+							"raw": "localhost:8085/ze/v1/parceiros?longitude=-43.93544&latitude=-19.85711",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"ze",
+								"v1",
+								"parceiros"
+							],
+							"query": [
+								{
+									"key": "longitude",
+									"value": "-43.93544",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "latitude",
+									"value": "-19.85711",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Parceiro Por ID",
+					"request": {
+						"url": "localhost:8085/ze/v1/parceiros/62bf4747925c8527b901a53e",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
