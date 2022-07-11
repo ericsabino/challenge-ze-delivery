@@ -2,29 +2,25 @@ package br.com.zedelivery.parceiroze.app.adapter.entrypoint;
 
 import br.com.zedelivery.parceiroze.app.adapter.entrypoint.mapper.CoordenadaClienteMapper;
 import br.com.zedelivery.parceiroze.app.adapter.entrypoint.mapper.ParceiroZeMapper;
+import br.com.zedelivery.parceiroze.core.usecase.ParceiroZePorCoordenadaUsecase;
+import br.com.zedelivery.parceiroze.core.usecase.ParceiroZePorIdUsecase;
 import br.com.zedelivery.parceiroze.core.usecase.ParceiroZeUsecase;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.util.Arrays;
 
 import static br.com.zedelivery.parceiroze.mocks.MapperMocks.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -50,6 +46,10 @@ public class ParceiroZeControllerTest {
     @MockBean
     private CoordenadaClienteMapper coordenadaClienteMapper;
     @MockBean
+    private ParceiroZePorIdUsecase parceiroZePorIdUsecase;
+    @MockBean
+    private ParceiroZePorCoordenadaUsecase parceiroZePorCoordenadaUsecase;
+    @MockBean
     private ParceiroZeUsecase parceiroZeUsecase;
 
     @Test
@@ -60,32 +60,38 @@ public class ParceiroZeControllerTest {
         mockMvc.perform(post(URI_PARCEIRO).contentType(MediaType.APPLICATION_JSON)
                 .content(requestValid))
                 .andExpect(status().isCreated());
+
+        verify(parceiroZeUsecase, times(1)).cadastrar(getParceiroZeModel());
     }
 
     @Test
     public void testBuscarParceiroPorId() throws Exception {
-        when(parceiroZeUsecase.buscarParceiroPorId(anyString())).thenReturn(getParceiroZeModel());
-        when(parceiroZeMapper.parceiroZeModelToParceiroZeDto(any())).thenReturn(getParceiroZeDto());
+        when(parceiroZePorIdUsecase.buscarParceiroPorId(anyString())).thenReturn(getParceiroZeModel());
+        when(parceiroZeMapper.parceiroZeModelToParceiroZeDto(any())).thenReturn(Arrays.asList(getParceiroZeDto()));
 
         mockMvc.perform(get(URI_PARCEIRO_ID, "002")
                         .accept(MediaType.APPLICATION_JSON))
                         .andExpect(status().isOk());
+
+        verify(parceiroZePorIdUsecase, times(1)).buscarParceiroPorId(anyString());
     }
 
     @Test
     public void testBuscarParceiroPorCoordenadas() throws Exception {
-        when(parceiroZeUsecase.buscarParceirosProximoPorCoordenadas(any())).thenReturn(getParceiroZeModel());
+        when(parceiroZePorCoordenadaUsecase.buscarParceirosProximoPorCoordenadas(any())).thenReturn(Arrays.asList(getParceiroZeModel()));
         when(coordenadaClienteMapper.coordenadaClienteDtoToCoordenadaClienteModel(any(), any())).thenReturn(getCoordenadaCliente());
-        when(parceiroZeMapper.parceiroZeModelToParceiroZeDto(any())).thenReturn(getParceiroZeDto());
+        when(parceiroZeMapper.parceiroZeModelToParceiroZeDto(any())).thenReturn(Arrays.asList(getParceiroZeDto()));
 
         mockMvc.perform(get(URI_PARCEIRO_POR_COORDENADAS)
                 .accept(MediaType.APPLICATION_JSON)
                 .queryParam("longitude", "-10")
                 .queryParam("latitude", "2"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is("002")))
-                .andExpect(jsonPath("$.document", is("99.999.999/9999-00")))
-                .andExpect(jsonPath("$.coverageArea.type", is("MultiPolygon")))
-                .andExpect(jsonPath("$.address.type", is("POINT")));
+                .andExpect(jsonPath("$.[0].id", is("002")))
+                .andExpect(jsonPath("$.[0].document", is("99.999.999/9999-00")))
+                .andExpect(jsonPath("$.[0].coverageArea.type", is("MultiPolygon")))
+                .andExpect(jsonPath("$.[0].address.type", is("POINT")));
+
+        verify(parceiroZePorCoordenadaUsecase, times(1)).buscarParceirosProximoPorCoordenadas(any());
     }
 }

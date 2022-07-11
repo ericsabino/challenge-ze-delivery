@@ -8,6 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Arrays;
+
 import static br.com.zedelivery.parceiroze.mocks.MapperMocks.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -55,25 +57,27 @@ class ParceiroZeMapperTest {
         when(addressMapper.addressModelToAddressDto(any())).thenReturn(getAddressDto());
         when(coverageAreaMapper.covarageAreaModelToCovarageAreaDto(any())).thenReturn(getCoverageDto());
 
-        var result = mapper.parceiroZeModelToParceiroZeDto(getParceiroZeModel());
+        var result = mapper.parceiroZeModelToParceiroZeDto(Arrays.asList(getParceiroZeModel()));
         assertNotNull(result);
-        assertEquals("1", result.getId());
-        assertEquals("1432132123891/0001", result.getDocument());
-        assertEquals("Adega da Cerveja - Pinheiros", result.getTradingName());
-        assertEquals("Zé da Silva", result.getOwnerName());
-        assertEquals(getCoverageDto(), result.getCoverageArea());
-        assertEquals(getAddressDto(), result.getAddress());
+        result.forEach(r -> {
+            assertEquals("1", r.getId());
+            assertEquals("1432132123891/0001", r.getDocument());
+            assertEquals("Adega da Cerveja - Pinheiros", r.getTradingName());
+            assertEquals("Zé da Silva", r.getOwnerName());
+            assertEquals(getCoverageDto(), r.getCoverageArea());
+            assertEquals(getAddressDto(), r.getAddress());
+        });
     }
 
     @Test
     public void testParceiroZeModelNulo() {
-        ParceiroZe parceiroZe = mapper.parceiroZeDtoToParceiroZeModel(null);
+        var parceiroZe = mapper.parceiroZeDtoToParceiroZeModel(null);
         assertNull(parceiroZe);
     }
 
     @Test
     public void testParceiroZeDtoNulo() {
-        ParceiroZeDto parceiroZeDto = mapper.parceiroZeModelToParceiroZeDto(null);
+        var parceiroZeDto = mapper.parceiroZeModelToParceiroZeDto(null);
         assertNull(parceiroZeDto);
     }
 

@@ -4,8 +4,10 @@ import br.com.zedelivery.parceiroze.app.adapter.dataprovider.repository.entity.P
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
+import java.util.List;
+
 public interface ParceiroZeRepository extends MongoRepository<ParceiroZeEntity, String> {
 
     @Query(value = "{'coverageArea.coordinates' : {$elemMatch:{$elemMatch:{$elemMatch:{$elemMatch : { $in : ?0}}}}}}")
-    public ParceiroZeEntity findByCoverageAreaCoordinates(Double[] lngLat);
+    public List<ParceiroZeEntity> findByCoverageAreaCoordinates(Double[] lngLat);
 }

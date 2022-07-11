@@ -6,12 +6,14 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface ParceiroZeDataproviderMapper {
 
-    public ParceiroZeDataproviderDto parceiroZeEntityToParceiroZeDataproviderDto(ParceiroZeEntity parceiroZeEntity);
+    public List<ParceiroZeDataproviderDto> parceiroZeEntityToParceiroZeDataproviderDto(List<ParceiroZeEntity> parceiroZeEntity);
 
     @InheritInverseConfiguration
     @Mapping(target = "id",ignore = true)
-    public ParceiroZeEntity parceiroZeDataproviderDtoToParceiroZeEntity(ParceiroZeDataproviderDto parceiroZeDataproviderDto);
+    public List<ParceiroZeEntity> parceiroZeDataproviderDtoToParceiroZeEntity(List<ParceiroZeDataproviderDto> parceiroZeDataproviderDto);
 }

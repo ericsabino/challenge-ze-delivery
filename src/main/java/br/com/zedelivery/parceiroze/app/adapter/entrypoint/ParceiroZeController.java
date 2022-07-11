@@ -3,15 +3,18 @@ package br.com.zedelivery.parceiroze.app.adapter.entrypoint;
 import br.com.zedelivery.parceiroze.app.adapter.entrypoint.dto.ParceiroZeDto;
 import br.com.zedelivery.parceiroze.app.adapter.entrypoint.mapper.CoordenadaClienteMapper;
 import br.com.zedelivery.parceiroze.app.adapter.entrypoint.mapper.ParceiroZeMapper;
+import br.com.zedelivery.parceiroze.core.usecase.ParceiroZePorCoordenadaUsecase;
+import br.com.zedelivery.parceiroze.core.usecase.ParceiroZePorIdUsecase;
 import br.com.zedelivery.parceiroze.core.usecase.ParceiroZeUsecase;
 import br.com.zedelivery.parceiroze.core.usecase.model.ParceiroZe;
 import lombok.AllArgsConstructor;
-import org.springframework.format.annotation.NumberFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import java.util.Arrays;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -25,13 +28,15 @@ public class ParceiroZeController {
     public static final String IDENTIFICADOR_NOT_NULL = "Identidicador do cliente deve ser informado";
     private ParceiroZeMapper parceiroZeMapper;
     private CoordenadaClienteMapper coordenadaClienteMapper;
+    private ParceiroZePorIdUsecase parceiroZePorIdUsecase;
     private ParceiroZeUsecase parceiroZeUsecase;
+    private ParceiroZePorCoordenadaUsecase parceiroZePorCoordenadaUsecase;
 
     @PostMapping(value = "/parceiros")
     public ResponseEntity cadastrarParceiro(@RequestBody @Valid ParceiroZeDto parceiroZeDto) {
 
         ParceiroZe parceiroZe = parceiroZeMapper.parceiroZeDtoToParceiroZeModel(parceiroZeDto);
-        parceiroZeUsecase.cadastrarParceiro(parceiroZe);
+        parceiroZeUsecase.cadastrar(parceiroZe);
         return ResponseEntity.status(CREATED).build();
     }
 
@@ -39,9 +44,9 @@ public class ParceiroZeController {
     public ResponseEntity buscarParceiroPorId(@PathVariable("identificador")
                                               @Valid @NotNull(message = IDENTIFICADOR_NOT_NULL)
                                               String identificador) {
-        var parceiroZe = parceiroZeUsecase.buscarParceiroPorId(identificador);
+        var parceiroZe = parceiroZePorIdUsecase.buscarParceiroPorId(identificador);
 
-        return ResponseEntity.ok().body(parceiroZeMapper.parceiroZeModelToParceiroZeDto(parceiroZe));
+        return ResponseEntity.ok().body(parceiroZeMapper.parceiroZeModelToParceiroZeDto(Arrays.asList(parceiroZe)).get(0));
     }
 
     @GetMapping(value = "/parceiros")
@@ -49,7 +54,7 @@ public class ParceiroZeController {
                                          @RequestParam @Valid @NotNull(message = LATITUDE_NOT_NULL) Double latitude) {
 
         var coordenadaCliente = coordenadaClienteMapper.coordenadaClienteDtoToCoordenadaClienteModel(longitude, latitude);
-        var parceiroZe = parceiroZeUsecase.buscarParceirosProximoPorCoordenadas(coordenadaCliente);
+        var parceiroZe = parceiroZePorCoordenadaUsecase.buscarParceirosProximoPorCoordenadas(coordenadaCliente);
 
         return ResponseEntity.ok().body(parceiroZeMapper.parceiroZeModelToParceiroZeDto(parceiroZe));
     }

@@ -15,16 +15,18 @@ import org.springframework.data.redis.connection.lettuce.LettuceClientConfigurat
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 
 import java.time.Duration;
+import java.util.List;
 
 @Configuration
 @EnableCaching
 public class RedisConfig {
     public static final String CACHE_MANAGER_ZE_DELIVERY = "cacheManagerZeDelivery";
     public static final String PARCEIRO_ZE = "parceiroze-por-area-de-cobertura";
-    private static final Integer DURATION_IN_MINUTOS = 5;
+    private static final Integer DURATION_IN_MINUTOS = 2;
     @Value("${redis.url}")
     private String redisHostname;
     @Value("${redis.port}")
@@ -50,7 +52,7 @@ public class RedisConfig {
     private RedisCacheConfiguration buildCacheConfiguration(Duration duration, Class clazz) {
         RedisSerializationContext.SerializationPair jsonSerializeValues = RedisSerializationContext
                 .SerializationPair
-                .fromSerializer(new Jackson2JsonRedisSerializer<Object>(clazz));
+                .fromSerializer(new JdkSerializationRedisSerializer());
         return RedisCacheConfiguration
                 .defaultCacheConfig()
                 .entryTtl(duration)

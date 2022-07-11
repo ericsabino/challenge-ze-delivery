@@ -7,13 +7,15 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring", uses = {ParceiroZe.class})
 public interface ParceiroZeUsecaseMapper {
 
     public ParceiroZeDataproviderDto parceiroZeToParceiroZeDataproviderDto(ParceiroZe parceiroZe);
 
     @InheritInverseConfiguration
-    public ParceiroZe parceiroZeDataproviderDtoToParceiroZeModel(ParceiroZeDataproviderDto parceiroZeDataproviderDto);
+    public List<ParceiroZe> parceiroZeDataproviderDtoToParceiroZeModel(List<ParceiroZeDataproviderDto> parceiroZeDataproviderDto);
 
     @Mapping(target = "id", source = "identificador")
     public ParceiroZeDataproviderDto identificadorToParceiroZeDataproviderDto(String identificador);

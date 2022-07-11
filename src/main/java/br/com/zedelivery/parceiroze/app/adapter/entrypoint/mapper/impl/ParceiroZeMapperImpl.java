@@ -8,6 +8,9 @@ import br.com.zedelivery.parceiroze.core.usecase.model.ParceiroZe;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class ParceiroZeMapperImpl implements ParceiroZeMapper {
 
@@ -34,18 +37,24 @@ public class ParceiroZeMapperImpl implements ParceiroZeMapper {
     }
 
     @Override
-    public ParceiroZeDto parceiroZeModelToParceiroZeDto(ParceiroZe parceiroZeModel) {
+    public List<ParceiroZeDto> parceiroZeModelToParceiroZeDto(List<ParceiroZe> parceiroZeModel) {
 
         if(parceiroZeModel == null) {
             return null;
         }
-        return ParceiroZeDto.builder()
-                .id(parceiroZeModel.getId())
-                .tradingName(parceiroZeModel.getTradingName())
-                .ownerName(parceiroZeModel.getOwnerName())
-                .document(parceiroZeModel.getDocument())
-                .coverageArea(coverageAreaMapper.covarageAreaModelToCovarageAreaDto(parceiroZeModel.getCoverageArea()))
-                .address(addressMapper.addressModelToAddressDto(parceiroZeModel.getAddress()))
-                .build();
+        List<ParceiroZeDto> parceirosZeDto= new ArrayList<>();
+        parceiroZeModel.forEach(p -> {
+            ParceiroZeDto buildParceiro = ParceiroZeDto.builder()
+                    .id(p.getId())
+                    .tradingName(p.getTradingName())
+                    .ownerName(p.getOwnerName())
+                    .document(p.getDocument())
+                    .coverageArea(coverageAreaMapper.covarageAreaModelToCovarageAreaDto(p.getCoverageArea()))
+                    .address(addressMapper.addressModelToAddressDto(p.getAddress()))
+                    .build();
+
+            parceirosZeDto.add(buildParceiro);
+        });
+        return parceirosZeDto;
     }
 }
