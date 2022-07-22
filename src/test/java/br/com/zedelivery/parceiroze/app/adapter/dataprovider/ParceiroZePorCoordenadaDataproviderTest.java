@@ -40,7 +40,7 @@ public class ParceiroZePorCoordenadaDataproviderTest {
 
     @Test
     public void testDeveBuscarParceiroZePorCoordenadas() {
-        when(parceiroZeRepository.findByCoverageAreaCoordinates(any())).thenReturn(Arrays.asList(getParceiroZeEntity()));
+        when(parceiroZeRepository.findByAddressCoordinatesNear(any())).thenReturn(Arrays.asList(getParceiroZeEntity()));
         when(parceiroZeDataproviderMapper.parceiroZeEntityToParceiroZeDataproviderDto(Arrays.asList(getParceiroZeEntity()))).thenReturn(Arrays.asList(getParceiroZeDataproviderDto()));
         var parceiroZeDataproviderDto = dataprovider.buscarParceiroZePorCoordenadas(getCoordenadaCliente());
 
@@ -49,10 +49,10 @@ public class ParceiroZePorCoordenadaDataproviderTest {
 
     @Test(expected = InternalServerErrorException.class)
     public void testDeveRetornarInternalServerErrorExceptionAoBuscarPorCoordenadas() {
-        when(parceiroZeRepository.findByCoverageAreaCoordinates(any())).thenThrow(MongoException.class);
+        when(parceiroZeRepository.findByAddressCoordinatesNear(any())).thenThrow(MongoException.class);
         dataprovider.buscarParceiroZePorCoordenadas(getCoordenadaCliente());
 
-        verify(parceiroZeRepository, times(1)).findByCoverageAreaCoordinates(any());
+        verify(parceiroZeRepository, times(1)).findByAddressCoordinatesNear(any());
     }
 
 }

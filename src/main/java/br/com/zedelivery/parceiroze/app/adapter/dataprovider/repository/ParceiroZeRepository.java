@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface ParceiroZeRepository extends MongoRepository<ParceiroZeEntity, String> {
 
-    @Query(value = "{'coverageArea.coordinates' : {$elemMatch:{$elemMatch:{$elemMatch:{$elemMatch : { $in : ?0}}}}}}")
-    public List<ParceiroZeEntity> findByCoverageAreaCoordinates(Double[] lngLat);
+    @Query(value = "{'address.coordinates' : {$near:?0}}")
+    public List<ParceiroZeEntity> findByAddressCoordinatesNear(Double[] lngLat);
 }
