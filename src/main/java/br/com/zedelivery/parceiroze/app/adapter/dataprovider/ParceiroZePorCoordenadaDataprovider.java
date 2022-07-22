@@ -25,7 +25,7 @@ public class ParceiroZePorCoordenadaDataprovider implements ParceiroZePorCoorden
     public List<ParceiroZeDataproviderDto> buscarParceiroZePorCoordenadas(CoordenadaCliente coordenadaCliente) {
         Double[] coordenadas = {coordenadaCliente.getLongitude(), coordenadaCliente.getLatitude()};
         try {
-            var parceiroZeEntity = parceiroZeRepository.findByCoverageAreaCoordinates(coordenadas);
+            var parceiroZeEntity = parceiroZeRepository.findByAddressCoordinatesNear(coordenadas);
             return parceiroZeDataproviderMapper.parceiroZeEntityToParceiroZeDataproviderDto(parceiroZeEntity);
         } catch (MongoException e) {
             log.error(String.format(ERRO_FIND_BY_COORDINATES, coordenadas), e);

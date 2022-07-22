@@ -3,6 +3,7 @@ package br.com.zedelivery.parceiroze.app.adapter.dataprovider;
 import br.com.zedelivery.parceiroze.app.adapter.dataprovider.mapper.ParceiroZeDataproviderMapper;
 import br.com.zedelivery.parceiroze.app.adapter.dataprovider.repository.ParceiroZeRepository;
 import br.com.zedelivery.parceiroze.app.adapter.dataprovider.repository.entity.ParceiroZeEntity;
+import br.com.zedelivery.parceiroze.app.configuration.exception.BusinessException;
 import br.com.zedelivery.parceiroze.app.configuration.exception.InternalServerErrorException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +34,7 @@ public class ParceiroZeDataproviderTest {
         verify(parceiroZeRepository, times(1)).insert(any(ParceiroZeEntity.class));
     }
 
-    @Test(expected = InternalServerErrorException.class)
+    @Test(expected = BusinessException.class)
     public void testDeveRetornarInternalServerErrorExceptionAoSalvarParceiro() {
         when(parceiroZeDataproviderMapper.parceiroZeDataproviderDtoToParceiroZeEntity(any())).thenReturn(Arrays.asList(getParceiroZeEntity()));
         when(parceiroZeRepository.insert(any(ParceiroZeEntity.class))).thenThrow(RuntimeException.class);

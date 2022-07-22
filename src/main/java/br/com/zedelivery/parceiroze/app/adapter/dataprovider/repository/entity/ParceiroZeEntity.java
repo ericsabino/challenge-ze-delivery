@@ -6,7 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.*;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 @Builder
@@ -23,7 +24,6 @@ public class ParceiroZeEntity {
     @Indexed
     @Field("coverageArea")
     private CoverageAreaEntity coverageArea;
-    @Indexed
     @Field("address")
     private AddressEntity address;
 }
