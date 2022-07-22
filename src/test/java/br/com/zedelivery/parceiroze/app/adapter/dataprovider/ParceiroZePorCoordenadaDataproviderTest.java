@@ -40,19 +40,20 @@ public class ParceiroZePorCoordenadaDataproviderTest {
 
     @Test
     public void testDeveBuscarParceiroZePorCoordenadas() {
-        when(parceiroZeRepository.findByAddressCoordinatesNear(any())).thenReturn(Arrays.asList(getParceiroZeEntity()));
-        when(parceiroZeDataproviderMapper.parceiroZeEntityToParceiroZeDataproviderDto(Arrays.asList(getParceiroZeEntity()))).thenReturn(Arrays.asList(getParceiroZeDataproviderDto()));
+        when(parceiroZeRepository.findByAddressCoordinatesNear(any(), any())).thenReturn(Arrays.asList(getParceiroZeEntity(), getParceiroZeEntity()));
+        when(parceiroZeDataproviderMapper.parceiroZeEntityToParceiroZeDataproviderDto(Arrays.asList(getParceiroZeEntity(), getParceiroZeEntity()))).thenReturn(Arrays.asList(getParceiroZeDataproviderDto()));
         var parceiroZeDataproviderDto = dataprovider.buscarParceiroZePorCoordenadas(getCoordenadaCliente());
 
+        Assert.assertEquals(1, parceiroZeDataproviderDto.size());
         Assert.assertEquals(Arrays.asList(getParceiroZeDataproviderDto()), parceiroZeDataproviderDto);
     }
 
     @Test(expected = InternalServerErrorException.class)
     public void testDeveRetornarInternalServerErrorExceptionAoBuscarPorCoordenadas() {
-        when(parceiroZeRepository.findByAddressCoordinatesNear(any())).thenThrow(MongoException.class);
+        when(parceiroZeRepository.findByAddressCoordinatesNear(any(), any())).thenThrow(MongoException.class);
         dataprovider.buscarParceiroZePorCoordenadas(getCoordenadaCliente());
 
-        verify(parceiroZeRepository, times(1)).findByAddressCoordinatesNear(any());
+        verify(parceiroZeRepository, times(1)).findByAddressCoordinatesNear(any(), any());
     }
 
 }
