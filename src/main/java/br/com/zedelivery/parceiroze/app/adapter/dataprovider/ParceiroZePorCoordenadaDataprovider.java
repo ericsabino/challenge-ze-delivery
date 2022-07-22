@@ -9,6 +9,8 @@ import br.com.zedelivery.parceiroze.core.usecase.model.CoordenadaCliente;
 import com.mongodb.MongoException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ParceiroZePorCoordenadaDataprovider implements ParceiroZePorCoordenadasGateway {
     public static final String ERRO_FIND_BY_COORDINATES = "Erro ao pesquisar parceiro próximo à coordenada: [%s]";
+    private static final int PAGESIZE = 1;
     private final ParceiroZeDataproviderMapper parceiroZeDataproviderMapper;
     private final ParceiroZeRepository parceiroZeRepository;
 
@@ -25,7 +28,7 @@ public class ParceiroZePorCoordenadaDataprovider implements ParceiroZePorCoorden
     public List<ParceiroZeDataproviderDto> buscarParceiroZePorCoordenadas(CoordenadaCliente coordenadaCliente) {
         Double[] coordenadas = {coordenadaCliente.getLongitude(), coordenadaCliente.getLatitude()};
         try {
-            var parceiroZeEntity = parceiroZeRepository.findByAddressCoordinatesNear(coordenadas);
+            var parceiroZeEntity = parceiroZeRepository.findByAddressCoordinatesNear(coordenadas, PageRequest.ofSize(PAGESIZE));
             return parceiroZeDataproviderMapper.parceiroZeEntityToParceiroZeDataproviderDto(parceiroZeEntity);
         } catch (MongoException e) {
             log.error(String.format(ERRO_FIND_BY_COORDINATES, coordenadas), e);
