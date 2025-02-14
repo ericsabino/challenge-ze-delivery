@@ -1,6 +1,16 @@
 # challenge-ze-delivery
 Desafio backend proposto pelo Zé Delivery
 
+# Lista de itens 
+**Abaixo segue uma lista de itens a serem implementado que foge do escopo inicial do projeto**
+* CI/CD no github
+* Deploy ECS/Fargate
+* Cluster Redis
+* Log Datadog
+* APM Datadog
+* Dashboard Datadog
+
+
 # Tecnologias
 
 **Maven** - Para gerenciar dependência.
